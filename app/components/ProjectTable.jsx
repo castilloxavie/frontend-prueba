@@ -19,6 +19,8 @@ export default function ProjectTable(){
     const setSelectedProject = useProjectStore(
         (state) => state.setSelectedProject
     );
+    const selectedProject = useProjectStore((state) => state.selectedProject)
+
     const projects = getPaginationProject();
     const totalProject = useProjectStore((state) => state.getFilterProject().length)
     const totalPages = Math.ceil(totalProject / itemPerPage);

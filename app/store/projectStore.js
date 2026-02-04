@@ -39,6 +39,15 @@ export const useProjectStore = create ((set, get) => ({
 
         let data = [...get().getFilterProject()]
 
+        // Función auxiliar para contar ítems por tipo
+        const countItemsByType = (incidents, type) => {
+            const now = new Date();
+            return incidents.filter(
+                (item) =>
+                    item.item === type && item.status === "active" && new Date(item.limitDate) > now
+            ).length;
+        };
+
         //ordeno
         if(sortBy === "name") {
             data.sort((a, b) => a.title.localeCompare(b.title))
@@ -48,12 +57,24 @@ export const useProjectStore = create ((set, get) => ({
             const countDue = (project) =>{
                 const now = new Date();
                 return (project.incidents || []).filter(
-                    (item) => 
+                    (item) =>
                         item.status === "active" && new Date(item.limitDate) > now
                 ).length
             }
 
             data.sort((a, b) => countDue(b) - countDue(a))
+        }
+
+        if(sortBy === "incidents") {
+            data.sort((a, b) => countItemsByType(b.incidents || [], "incidents") - countItemsByType(a.incidents || [], "incidents"))
+        }
+
+        if(sortBy === "rfi") {
+            data.sort((a, b) => countItemsByType(b.incidents || [], "RFI") - countItemsByType(a.incidents || [], "RFI"))
+        }
+
+        if(sortBy === "tasks") {
+            data.sort((a, b) => countItemsByType(b.incidents || [], "task") - countItemsByType(a.incidents || [], "task"))
         }
 
         const start = (currentPage - 1) * itemPerPage

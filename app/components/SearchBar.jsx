@@ -1,5 +1,6 @@
 "use client";
 import { useProjectStore } from "@/store/projectStore";
+import styles from "@/styles/searchBar.module.css"
 
 export default function SearcBar () {
     const searchTerm = useProjectStore((state) => state.searchTerm);
@@ -7,12 +8,7 @@ export default function SearcBar () {
 
     return (
         <input type="text" placeholder="Buscar Proyecto" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-        style={{
-            marginBottom: "1px",
-            padding: "8px",
-            width: "100%",
-            maxWidth: "320px"
-        }}
+        className={styles.input}
          />
     )
 }

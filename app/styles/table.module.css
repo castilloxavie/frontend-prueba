@@ -21,3 +21,8 @@
 .row:hover {
     background-color: #f9fafb;
 }
+
+.activeRow {
+  background-color: #eef2ff;
+  border-left: 4px solid #6366f1;
+}

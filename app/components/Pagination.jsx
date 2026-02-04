@@ -1,5 +1,6 @@
 "use client";
 import { useProjectStore } from "@/store/projectStore"
+import styles from "@/styles/pagination.module.css"
 
 //paginacion 
 export default function Pagination () {
@@ -12,14 +13,10 @@ export default function Pagination () {
     if(totalPages <= 1) return null;
 
     return (
-        <div style={{marginTop: "16px"}}>
+        <div className={styles.container}>
             {Array.from({length: totalPages}, (_, i) => i + 1).map((page) => (
                 <button key={page} onClick={() => setPage(page)}
-                style={{
-                    marginRight: "8px",
-                    padding: "6px 10px",
-                    fontWeight: page === currentPage ? "bold": "normal"
-                }}
+                className={page === currentPage ? styles.active : styles.button}
                 >{page}</button>
             ))}
         </div>
