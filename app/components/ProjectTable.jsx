@@ -13,10 +13,15 @@ const countItemsByType = (incidents, type) => {
 };
 
 export default function ProjectTable(){
-    const projects = useProjectStore((state) => state.projects);
+    const getPaginationProject = useProjectStore((state) => state.getPaginationProject)
+    const currentPage = useProjectStore((state) => state.currentPage);
+    const itemPerPage = useProjectStore((state) => state.itemPerPage);
     const setSelectedProject = useProjectStore(
         (state) => state.setSelectedProject
     );
+    const projects = getPaginationProject();
+    const totalProject = useProjectStore((state) => state.getFilterProject().length)
+    const totalPages = Math.ceil(totalProject / itemPerPage);
 
     return(
         <table className={styles.table}>

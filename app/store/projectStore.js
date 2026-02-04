@@ -11,6 +11,7 @@ export const useProjectStore = create ((set, get) => ({
     sortBy: "name",
     currentPage: 1,
     itemPerPage: 10,
+    statusFilter: "all",
 
     //acciones
     setSearchTerm: (term) => 
@@ -25,18 +26,66 @@ export const useProjectStore = create ((set, get) => ({
     setSelectedProject: (project) =>
         set({selectedProject: project }),
 
+    setStatusFilter: (status) => 
+        set({ statusFilter: status, currentPage: 1 }),
+
     //paginacion(10 x pagina), del proyecto
     getPaginationProject: () => {
         const {
-            projects,
             currentPage,
             itemPerPage,
+            sortBy,
         } = get();
 
-        const start = (currentPage -1) * itemPerPage;
-        const end = start + itemPerPage;
+        let data = [...get().getFilterProject()]
 
-        return projects.slice(start, end)
-    } 
+        //ordeno
+        if(sortBy === "name") {
+            data.sort((a, b) => a.title.localeCompare(b.title))
+        }
+
+        if(sortBy === "due"){
+            const countDue = (project) =>{
+                const now = new Date();
+                return (project.incidents || []).filter(
+                    (item) => 
+                        item.status === "active" && new Date(item.limitDate) > now
+                ).length
+            }
+
+            data.sort((a, b) => countDue(b) - countDue(a))
+        }
+
+        const start = (currentPage - 1) * itemPerPage
+        const end = start + itemPerPage
+
+        return data.slice(start, end)
+    },
+
+    //filtros para la budqueda de proyecto
+    getFilterProject: () => {
+        const {projects, searchTerm, statusFilter} = get()
+        let result = [...projects]
+
+        //filtrar por estados
+        if(statusFilter !== "all"){
+            result = result.filter(
+                projects => projects.status === statusFilter
+            )
+        }
+
+        //busqueda
+
+        if(searchTerm.trim()){
+            result = result.filter(
+                projects => 
+                    projects.title
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase())
+            )
+        }
+
+        return result;
+    }
 
 }))
