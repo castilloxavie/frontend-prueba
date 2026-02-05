@@ -2,18 +2,19 @@ import { create } from "zustand"
 import projectsData from "@/data/mock_data.json"
 
 export const useProjectStore = create ((set, get) => ({
-    //datos
+    // Datos
     projects: projectsData,
     selectedProject: null,
 
-    //estado de interfaz de  usuario 
+    // Estado de interfaz de usuario 
     searchTerm: "",
     sortBy: "name",
     currentPage: 1,
     itemPerPage: 10,
     statusFilter: "all",
+    viewMode: "list",
 
-    //acciones
+    // Acciones
     setSearchTerm: (term) => 
         set({ searchTerm: term, currentPage: 1 }),
 
@@ -21,15 +22,43 @@ export const useProjectStore = create ((set, get) => ({
         set({ sortBy: value }),
 
     setPage: (page)  =>
-        set({currentPage: page}),
+        set({ currentPage: page }),
 
     setSelectedProject: (project) =>
-        set({selectedProject: project }),
+        set({ selectedProject: project }),
 
     setStatusFilter: (status) => 
         set({ statusFilter: status, currentPage: 1 }),
 
-    //paginacion(10 x pagina), del proyecto
+    setViewMode: (mode) =>
+        set({ viewMode: mode }),
+
+    // Filtros para la busqueda de proyecto
+    getFilteredProjects: () => {
+        const { projects, searchTerm, statusFilter } = get()
+        let result = [...projects]
+
+        // Filtrar por estados
+        if(statusFilter !== "all"){
+            result = result.filter(
+                project => project.status === statusFilter
+            )
+        }
+
+        // Busqueda
+        if(searchTerm.trim()){
+            result = result.filter(
+                project => 
+                    project.title
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase())
+            )
+        }
+
+        return result;
+    },
+
+    // Paginacion (10 items por pagina)
     getPaginationProject: () => {
         const {
             currentPage,
@@ -37,9 +66,9 @@ export const useProjectStore = create ((set, get) => ({
             sortBy,
         } = get();
 
-        let data = [...get().getFilterProject()]
+        let data = [...get().getFilteredProjects()]
 
-        // Función auxiliar para contar ítems por tipo
+        // Funcion auxiliar para contar items por tipo
         const countItemsByType = (incidents, type) => {
             const now = new Date();
             return incidents.filter(
@@ -48,7 +77,7 @@ export const useProjectStore = create ((set, get) => ({
             ).length;
         };
 
-        //ordeno
+        // Ordenamiento
         if(sortBy === "name") {
             data.sort((a, b) => a.title.localeCompare(b.title))
         }
@@ -81,32 +110,6 @@ export const useProjectStore = create ((set, get) => ({
         const end = start + itemPerPage
 
         return data.slice(start, end)
-    },
-
-    //filtros para la budqueda de proyecto
-    getFilterProject: () => {
-        const {projects, searchTerm, statusFilter} = get()
-        let result = [...projects]
-
-        //filtrar por estados
-        if(statusFilter !== "all"){
-            result = result.filter(
-                projects => projects.status === statusFilter
-            )
-        }
-
-        //busqueda
-
-        if(searchTerm.trim()){
-            result = result.filter(
-                projects => 
-                    projects.title
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase())
-            )
-        }
-
-        return result;
     }
 
 }))

@@ -25,7 +25,7 @@ export default function Login() {
       <div className={styles.loginCard}>
         <div className={styles.loginContent}>
           <div className={styles.imageSection}>
-            <img src="/Spybee.png" alt="Spybee Logo" className={styles.loginImage} />
+            <img src="Spybee.png" alt="Spybee Logo" className={styles.loginImage} />
           </div>
           <div className={styles.formSection}>
             <h2 className={styles.loginTitle}>Login</h2>

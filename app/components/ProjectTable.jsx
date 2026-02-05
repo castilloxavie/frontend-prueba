@@ -2,10 +2,8 @@
 import { useProjectStore } from "@/store/projectStore";
 import styles from "../styles/table.module.css";
 
-//contar los elementos por tipos
 const countItemsByType = (incidents, type) => {
     const now = new Date();
-
     return incidents.filter(
         (item) =>
             item.item === type && item.status === "active" && new Date(item.limitDate) > now
@@ -13,16 +11,15 @@ const countItemsByType = (incidents, type) => {
 };
 
 export default function ProjectTable(){
-    const getPaginationProject = useProjectStore((state) => state.getPaginationProject)
+    const getPaginationProject = useProjectStore((state) => state.getPaginationProject);
     const currentPage = useProjectStore((state) => state.currentPage);
     const itemPerPage = useProjectStore((state) => state.itemPerPage);
-    const setSelectedProject = useProjectStore(
-        (state) => state.setSelectedProject
-    );
-    const selectedProject = useProjectStore((state) => state.selectedProject)
+    const setSelectedProject = useProjectStore((state) => state.setSelectedProject);
+    const selectedProject = useProjectStore((state) => state.selectedProject);
+    const getFilteredProjects = useProjectStore((state) => state.getFilteredProjects);
 
     const projects = getPaginationProject();
-    const totalProject = useProjectStore((state) => state.getFilterProject().length)
+    const totalProject = getFilteredProjects().length;
     const totalPages = Math.ceil(totalProject / itemPerPage);
 
     return(
@@ -38,13 +35,19 @@ export default function ProjectTable(){
             </thead>
 
             <tbody>
-                {projects.map((project) => {
+                {projects && projects.map((project) => {
                     const incidents = countItemsByType(project.incidents || [], "incidents");
                     const rfi = countItemsByType(project.incidents || [], "RFI");
                     const task = countItemsByType(project.incidents || [], "task");
+                    
+                    const isSelected = selectedProject?._id === project._id;
 
                     return(
-                        <tr key={project._id} onClick={() => setSelectedProject(project)} className={styles.row}>
+                        <tr 
+                            key={project._id} 
+                            onClick={() => setSelectedProject(project)} 
+                            className={`${styles.row} ${isSelected ? styles.selected : ''}`}
+                        >
                             <td>{project.title}</td>
                             <td>{project.projectPlanData?.plan ?? "N/A"}</td>
                             <td>{project.status}</td>
