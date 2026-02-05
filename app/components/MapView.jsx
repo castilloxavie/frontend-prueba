@@ -34,8 +34,6 @@ export default function MapView () {
         markersRef.current.forEach(m => m.remove())
         markersRef.current = []
 
-        let bounds = null
-
         projects.forEach((project) => {
             const pos = project.position || project.location
             if(!pos) return
@@ -48,23 +46,15 @@ export default function MapView () {
                 .addTo(map.current)
             markersRef.current.push(marker)
 
-            marker.getElement().addEventListener("click", () => {
+            marker.on("click", () => {
                 setSelectedProject(project)
             })
-
-            if(bounds === null) {
-                bounds = new mapboxgl.LngLatBounds([lng, lat], [lng, lat])
-            } else {
-                bounds.extend([lng, lat])
-            }
         })
 
-        if(bounds) {
-            map.current.fitBounds(bounds, { padding: 40, maxZoom: 5 })
-        }
+        // Los marcadores se agregan al mapa global sin ajustar bounds
     }, [projects, setSelectedProject])
 
-    // centrar el mapa a seleccionar el proyecto deseado
+    // centrar el mapa a seleccionar el proyecto deseado y resaltar el marcador
     useEffect(() => {
         if(!selected || !map.current) return
 
@@ -76,7 +66,17 @@ export default function MapView () {
 
         map.current.flyTo({
             center: [lng, lat],
-            zoom: 10,
+            zoom: 2,  
+        })
+
+        // Resaltar el marcador seleccionado cambiando su color
+        markersRef.current.forEach(marker => {
+            const markerElement = marker.getElement()
+            if (marker._lngLat.lng === lng && marker._lngLat.lat === lat) {
+                markerElement.style.backgroundColor = 'red'  
+            } else {
+                markerElement.style.backgroundColor = '' 
+            }
         })
     }, [selected])
 
