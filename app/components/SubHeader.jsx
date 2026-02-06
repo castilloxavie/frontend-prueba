@@ -71,14 +71,44 @@ export default function SubHeader() {
 
         <div className={styles.actionsSection}>
           <div className={styles.viewSelector}>
-            <button
-              className={`${styles.viewButton} ${sortBy ? styles.active : ""}`}
-              onClick={() => setShowSortDropdown(!showSortDropdown)}
-              aria-label="Filtro"
-              title="Filtro"
-            >
-              <FilterIcon />
-            </button>
+            <div style={{ position: 'relative' }}>
+              <button
+                className={`${styles.viewButton} ${sortBy !== "name" ? styles.active : ""}`}
+                onClick={() => setShowSortDropdown(!showSortDropdown)}
+                aria-label="Filtro"
+                title="Filtro"
+              >
+                <FilterIcon />
+              </button>
+              
+              <div className={`${filterStyles.dropdownContent} ${showSortDropdown ? filterStyles.show : ''}`} style={{ position: 'absolute', top: '100%', left: 0, marginTop: '4px', minWidth: '220px', zIndex: 1000 }}>
+                <button
+                  className={`${filterStyles.dropdownOption} ${sortBy === 'name' ? filterStyles.active : ''}`}
+                  onClick={() => handleSortOption('name')}
+                >
+                  Orden alfabetico
+                </button>
+                <button
+                  className={`${filterStyles.dropdownOption} ${sortBy === 'incidents' ? filterStyles.active : ''}`}
+                  onClick={() => handleSortOption('incidents')}
+                >
+                  Numero de Incidencias
+                </button>
+                <button
+                  className={`${filterStyles.dropdownOption} ${sortBy === 'rfi' ? filterStyles.active : ''}`}
+                  onClick={() => handleSortOption('rfi')}
+                >
+                  Numero de RFI
+                </button>
+                <button
+                  className={`${filterStyles.dropdownOption} ${sortBy === 'tasks' ? filterStyles.active : ''}`}
+                  onClick={() => handleSortOption('tasks')}
+                >
+                  Numero de Tareas
+                </button>
+              </div>
+            </div>
+
             <button
               className={`${styles.viewButton} ${viewMode === "list" ? styles.active : ""}`}
               onClick={() => setViewMode("list")}
@@ -108,41 +138,12 @@ export default function SubHeader() {
           <div className={styles.searchBar}>
             <input
               type="text"
-              placeholder="Buscar"
+              placeholder="Buscar proyecto"
               value={searchTerm}
               onChange={handleSearch}
               className={styles.searchInput}
               aria-label="Buscar proyecto"
             />
-          </div>
-
-          <div className={filterStyles.dropdown} style={{ position: 'relative' }}>
-            <div className={`${filterStyles.dropdownContent} ${showSortDropdown ? filterStyles.show : ''}`}>
-              <button
-                className={filterStyles.dropdownOption}
-                onClick={() => handleSortOption('name')}
-              >
-                Orden alfabetico
-              </button>
-              <button
-                className={filterStyles.dropdownOption}
-                onClick={() => handleSortOption('incidents')}
-              >
-                Numero de Incidencias
-              </button>
-              <button
-                className={filterStyles.dropdownOption}
-                onClick={() => handleSortOption('rfi')}
-              >
-                Numero de RFI
-              </button>
-              <button
-                className={filterStyles.dropdownOption}
-                onClick={() => handleSortOption('tasks')}
-              >
-                Numero de Tareas
-              </button>
-            </div>
           </div>
 
           <button className={styles.createButton}>

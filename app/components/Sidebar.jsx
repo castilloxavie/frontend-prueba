@@ -3,7 +3,10 @@ import { useProjectStore } from "@/store/projectStore";
 import styles from "../styles/sidebar.module.css";
 
 export default function Sidebar() {
-  const projects = useProjectStore((state) => state.getFilterProject());
+  const getFilteredProjects = useProjectStore((state) => state.getFilteredProjects);
+  const selectedProject = useProjectStore((state) => state.selectedProject);
+
+  const projects = getFilteredProjects();
 
   // Calcular items por vencer
   const getDueItems = () => {
@@ -28,68 +31,65 @@ export default function Sidebar() {
   const dueItems = getDueItems();
   const totalDue = dueItems.incidents + dueItems.rfi + dueItems.tasks;
 
-  // Safely calculate progress in degrees
-  const getProgress = (value, total) => {
-    return total > 0 ? `${(value / total) * 360}deg` : '0deg';
-  };
+  if (!selectedProject) {
+    return (
+      <aside className={styles.sidebar}>
+        <div className={styles.emptyState}>
+          <p>Selecciona un proyecto para ver detalles</p>
+        </div>
+      </aside>
+    );
+  }
 
   return (
-    <div className={styles.sidebar}>
-      <div className={styles.sidebarHeader}>
-        <h3 className={styles.sidebarTitle}>Resumen</h3>
-        <button className={styles.collapseBtn}></button>
-      </div>
-
-      <div className={styles.tabs}>
-        <button className={`${styles.tab} ${styles.active}`}>General</button>
-        <button className={styles.tab}>Mis actualizaciones</button>
-        <button className={styles.filterBtn}>Menu</button>
-      </div>
-
-      <div className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionIcon}>Time</span>
-          <h4>Proximos a vencer</h4>
-          <a href="#" className={styles.viewAll}>Ver todos</a>
+    <aside className={styles.sidebar}>
+      <div className={styles.sidebarContent}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>{selectedProject.title}</h2>
+          <p className={styles.subtitle}>Detalles del proyecto</p>
         </div>
 
-        <div className={styles.donutCharts}>
-          <div className={styles.donut}>
-            <div className={styles.donutProgress} style={{'--progress': getProgress(dueItems.incidents, totalDue)}}>
-              <span className={styles.donutNumber}>{dueItems.incidents}</span>
+        <div className={styles.section}>
+          <h3 className={styles.sectionTitle}>Por Vencer</h3>
+          <div className={styles.dueGrid}>
+            <div className={styles.dueItem}>
+              <span className={styles.label}>Incidencias</span>
+              <span className={styles.count}>{dueItems.incidents}</span>
             </div>
-            <span className={styles.donutLabel}>Incidencias</span>
+            <div className={styles.dueItem}>
+              <span className={styles.label}>RFI</span>
+              <span className={styles.count}>{dueItems.rfi}</span>
+            </div>
+            <div className={styles.dueItem}>
+              <span className={styles.label}>Tareas</span>
+              <span className={styles.count}>{dueItems.tasks}</span>
+            </div>
           </div>
-          <div className={styles.donut}>
-            <div className={styles.donutProgress} style={{'--progress': getProgress(dueItems.rfi, totalDue)}}>
-              <span className={styles.donutNumber}>{dueItems.rfi}</span>
-            </div>
-            <span className={styles.donutLabel}>RFI</span>
-          </div>
-          <div className={styles.donut}>
-            <div className={styles.donutProgress} style={{'--progress': getProgress(dueItems.tasks, totalDue)}}>
-              <span className={styles.donutNumber}>{dueItems.tasks}</span>
-            </div>
-            <span className={styles.donutLabel}>Tareas</span>
+          <div className={styles.totalDue}>
+            <strong>Total:</strong> {totalDue} items
           </div>
         </div>
-      </div>
 
-      <div className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionIcon}>Events</span>
-          <h4>Proximos eventos</h4>
-        </div>
-        <div className={styles.eventsList}>
-          <div className={styles.eventItem}>
-            <div className={styles.eventAvatar}>A</div>
-            <div className={styles.eventInfo}>
-              <div className={styles.eventTitle}>Revision semanal</div>
-              <div className={styles.eventMeta}>Proyecto Alpha - Hoy 14:00</div>
+        {selectedProject.city && (
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>Ubicación</h3>
+            <p className={styles.city}>{selectedProject.city}</p>
+          </div>
+        )}
+
+        {selectedProject.users && selectedProject.users.length > 0 && (
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>Equipo</h3>
+            <div className={styles.userList}>
+              {selectedProject.users.map((user, idx) => (
+                <div key={idx} className={styles.user}>
+                  <span>{user.name} {user.lastName}</span>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
+        )}
       </div>
-    </div>
+    </aside>
   );
 }

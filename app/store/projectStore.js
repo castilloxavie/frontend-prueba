@@ -70,10 +70,9 @@ export const useProjectStore = create ((set, get) => ({
 
         // Funcion auxiliar para contar items por tipo
         const countItemsByType = (incidents, type) => {
-            const now = new Date();
             return incidents.filter(
                 (item) =>
-                    item.item === type && item.status === "active" && new Date(item.limitDate) > now
+                    item.item === type && item.status === "active"
             ).length;
         };
 

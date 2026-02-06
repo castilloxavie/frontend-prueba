@@ -109,15 +109,24 @@ const DueItems = ({ incidents, rfi, tasks }) => {
 
 export default function ProjectTable(){
     const getPaginationProject = useProjectStore((state) => state.getPaginationProject);
+    const searchTerm = useProjectStore((state) => state.searchTerm);
+    const sortBy = useProjectStore((state) => state.sortBy);
     const currentPage = useProjectStore((state) => state.currentPage);
     const itemPerPage = useProjectStore((state) => state.itemPerPage);
     const setSelectedProject = useProjectStore((state) => state.setSelectedProject);
     const selectedProject = useProjectStore((state) => state.selectedProject);
     const getFilteredProjects = useProjectStore((state) => state.getFilteredProjects);
+    const setViewMode = useProjectStore((state) => state.setViewMode);
 
     const projects = getPaginationProject();
     const totalProject = getFilteredProjects().length;
     const totalPages = Math.ceil(totalProject / itemPerPage);
+
+    const handleProjectClick = (project) => {
+        setSelectedProject(project);
+        // Cambiar automáticamente a vista mixed para mostrar el mapa
+        setViewMode("mixed");
+    };
 
     return(
         <table className={styles.table}>
@@ -142,7 +151,7 @@ export default function ProjectTable(){
                     return(
                         <tr 
                             key={project._id} 
-                            onClick={() => setSelectedProject(project)} 
+                            onClick={() => handleProjectClick(project)} 
                             className={`${styles.row} ${isSelected ? styles.selected : ''}`}
                         >
                             <td className={styles.projectName}>{project.title}</td>
