@@ -45,6 +45,12 @@
 }
 
 /* Columna Proyecto */
+.projectName {
+  color: var(--dark-text);
+  font-weight: 600;
+  font-size: 14px;
+}
+
 .projectCell {
   display: flex;
   align-items: center;
@@ -54,13 +60,15 @@
 .projectPlaceholder {
   width: 40px;
   height: 40px;
-  background: var(--light-gray);
+  background: var(--info-color);
   border-radius: 4px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
+  color: var(--white);
+  font-weight: 600;
 }
 
 .projectInfo {
@@ -97,52 +105,43 @@
   font-size: 10px;
 }
 
-/* Plan badges */
-.planBadge {
+/* Badge base */
+.badge {
   display: inline-block;
-  padding: 4px 12px;
+  padding: 6px 12px;
   border-radius: 12px;
   font-size: 11px;
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: capitalize;
   letter-spacing: 0.3px;
+  white-space: nowrap;
 }
 
-/* Tipos de planes */
+/* Tipos de planes - Con gradientes */
 .planSmall {
-  background: #FFE8CC;
-  color: var(--warning-color);
+  background: radial-gradient(circle at 30% 30%, #FFB84D, #D4854F);
+  color: var(--white);
 }
 
 .planAdvanced {
-  background: #F5F5F5;
-  color: var(--dark-text);
+  background: radial-gradient(circle at 30% 30%, #A9A9A9, #6C757D);
+  color: var(--white);
 }
 
 .planPremium {
-  background: #FFF8E1;
-  color: #F57F17;
+  background: radial-gradient(circle at 30% 30%, #FFED4E, #DAA520);
+  color: var(--dark-text);
 }
 
 /* Status badge */
-.statusBadge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
 .statusActive {
   background: #E8F5E9;
-  color: var(--success-color);
+  color: #4CAF50;
 }
 
 .statusSuspended {
   background: #FFEBEE;
-  color: var(--danger-color);
+  color: #F44336;
 }
 
 .statusInactive {
@@ -150,28 +149,40 @@
   color: var(--medium-text);
 }
 
+.statusCompleted {
+  background: #E1F5FE;
+  color: #0288D1;
+}
+
 /* Team avatars */
-.teamAvatars {
+.teamContainer {
   display: flex;
   align-items: center;
-  gap: 2px;
+}
+
+.avatarGroup {
+  display: flex;
+  align-items: center;
+  gap: 0;
 }
 
 .avatar {
-  width: 32px;
-  height: 32px;
-  background: var(--primary-color);
+  width: 36px;
+  height: 36px;
+  background: radial-gradient(circle at 30% 30%, #FFD700, #D4854F);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--dark-text);
+  color: var(--white);
   font-weight: 600;
   font-size: 11px;
   border: 2px solid var(--white);
-  margin-left: -8px;
+  margin-left: -12px;
   flex-shrink: 0;
   transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .avatar:first-child {
@@ -179,54 +190,78 @@
 }
 
 .avatar:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
   z-index: 10;
-  margin-left: -4px;
+  margin-left: -6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Items por vencer - Nueva estructura */
+.dueItemsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  min-width: 180px;
+}
+
+.dueItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #FFFBF0;
+  flex: 1;
+  min-width: 50px;
+}
+
+.dueEmoji {
+  font-size: 16px;
+  line-height: 1;
+  min-width: 16px;
+  text-align: center;
+  color: #FFC107;
+  font-weight: bold;
+}
+
+.dueContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex: 1;
+}
+
+.dueLabel {
+  font-size: 9px;
+  color: var(--medium-text);
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  line-height: 1;
+}
+
+.dueCount {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--dark-text);
+  line-height: 1;
 }
 
 .teamCount {
-  background: var(--dark-text);
+  background: #6C757D;
   color: var(--white);
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 11px;
   font-weight: 600;
   border: 2px solid var(--white);
-  margin-left: -8px;
+  margin-left: -12px;
   flex-shrink: 0;
-}
-
-/* Items por vencer */
-.dueItems {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  min-width: 120px;
-}
-
-.dueItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-
-.dueNumber {
-  font-weight: 700;
-  font-size: 16px;
-  color: var(--dark-text);
-}
-
-.dueLabel {
-  font-size: 10px;
-  color: var(--medium-text);
-  text-transform: uppercase;
-  letter-spacing: 0.2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive */
@@ -243,14 +278,42 @@
   }
 
   .avatar {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
+    margin-left: -10px;
     font-size: 10px;
   }
 
+  .avatar:hover {
+    margin-left: -5px;
+  }
+
   .teamCount {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
+    margin-left: -10px;
+  }
+
+  .dueItemsContainer {
+    gap: 10px;
+    min-width: 150px;
+  }
+
+  .dueItem {
+    padding: 3px 6px;
+    gap: 4px;
+  }
+
+  .dueEmoji {
+    font-size: 14px;
+  }
+
+  .dueLabel {
+    font-size: 8px;
+  }
+
+  .dueCount {
+    font-size: 12px;
   }
 }
 
@@ -268,46 +331,52 @@
     padding: 12px 8px;
   }
 
-  .projectCell {
-    gap: 8px;
-  }
-
-  .projectTitle {
+  .projectName {
     font-size: 12px;
   }
 
-  .projectMeta {
-    font-size: 10px;
-  }
-
-  .planBadge {
-    padding: 2px 8px;
-    font-size: 9px;
-  }
-
-  .statusBadge {
-    padding: 2px 8px;
+  .badge {
+    padding: 4px 8px;
     font-size: 9px;
   }
 
   .avatar {
-    width: 24px;
-    height: 24px;
-    font-size: 8px;
+    width: 28px;
+    height: 28px;
+    margin-left: -8px;
+    font-size: 9px;
+  }
+
+  .avatar:hover {
+    margin-left: -4px;
   }
 
   .teamCount {
-    width: 24px;
-    height: 24px;
-    font-size: 8px;
+    width: 28px;
+    height: 28px;
+    margin-left: -8px;
+    font-size: 9px;
   }
 
-  .dueItems {
+  .dueItemsContainer {
     gap: 8px;
-    min-width: 80px;
+    min-width: 120px;
   }
 
-  .dueNumber {
-    font-size: 14px;
+  .dueItem {
+    padding: 2px 4px;
+    gap: 3px;
+  }
+
+  .dueEmoji {
+    font-size: 12px;
+  }
+
+  .dueLabel {
+    font-size: 7px;
+  }
+
+  .dueCount {
+    font-size: 11px;
   }
 }

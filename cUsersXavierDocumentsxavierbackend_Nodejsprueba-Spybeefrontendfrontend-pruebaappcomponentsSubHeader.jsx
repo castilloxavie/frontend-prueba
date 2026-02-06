@@ -26,22 +26,15 @@ export default function SubHeader() {
 
   const totalProjects = getFilteredProjects().length;
 
-  const FilterIcon = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <line x1="6" y1="12" x2="18" y2="12"></line>
-      <line x1="9" y1="18" x2="15" y2="18"></line>
-    </svg>
-  );
-
+  // Iconos SVG
   const ListIcon = () => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="5" cy="7" r="1.5"></circle>
-      <line x1="10" y1="6" x2="20" y2="6"></line>
-      <circle cx="5" cy="12" r="1.5"></circle>
-      <line x1="10" y1="11" x2="20" y2="11"></line>
-      <circle cx="5" cy="17" r="1.5"></circle>
-      <line x1="10" y1="16" x2="20" y2="16"></line>
+      <line x1="8" y1="6" x2="21" y2="6"></line>
+      <line x1="8" y1="12" x2="21" y2="12"></line>
+      <line x1="8" y1="18" x2="21" y2="18"></line>
+      <line x1="3" y1="6" x2="3.01" y2="6"></line>
+      <line x1="3" y1="12" x2="3.01" y2="12"></line>
+      <line x1="3" y1="18" x2="3.01" y2="18"></line>
     </svg>
   );
 
@@ -61,6 +54,19 @@ export default function SubHeader() {
     </svg>
   );
 
+  const SearchIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  );
+
+  const FilterIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+    </svg>
+  );
+
   return (
     <div className={styles.subHeader}>
       <div className={styles.subHeaderContent}>
@@ -71,14 +77,6 @@ export default function SubHeader() {
 
         <div className={styles.actionsSection}>
           <div className={styles.viewSelector}>
-            <button
-              className={`${styles.viewButton} ${sortBy ? styles.active : ""}`}
-              onClick={() => setShowSortDropdown(!showSortDropdown)}
-              aria-label="Filtro"
-              title="Filtro"
-            >
-              <FilterIcon />
-            </button>
             <button
               className={`${styles.viewButton} ${viewMode === "list" ? styles.active : ""}`}
               onClick={() => setViewMode("list")}
@@ -114,9 +112,20 @@ export default function SubHeader() {
               className={styles.searchInput}
               aria-label="Buscar proyecto"
             />
+            <span className={styles.searchIcon}>
+              <SearchIcon />
+            </span>
           </div>
 
           <div className={filterStyles.dropdown} style={{ position: 'relative' }}>
+            <button
+              className={filterStyles.dropdownButton}
+              onClick={() => setShowSortDropdown(!showSortDropdown)}
+              aria-label="Ordenar por"
+              title="Opciones de ordenamiento"
+            >
+              <FilterIcon />
+            </button>
             <div className={`${filterStyles.dropdownContent} ${showSortDropdown ? filterStyles.show : ''}`}>
               <button
                 className={filterStyles.dropdownOption}
