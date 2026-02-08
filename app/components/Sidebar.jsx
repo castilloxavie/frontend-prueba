@@ -2,6 +2,7 @@
 import { useProjectStore } from "@/store/projectStore";
 import styles from "../styles/sidebar.module.css";
 
+//barras laterales con detalles del proyecto seleccionado, como cantidad de items por vencer, ubicación y equipo asignado
 export default function Sidebar() {
   const getFilteredProjects = useProjectStore((state) => state.getFilteredProjects);
   const selectedProject = useProjectStore((state) => state.selectedProject);

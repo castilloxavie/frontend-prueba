@@ -16,12 +16,12 @@ export default function MapView () {
     const selected = useProjectStore((state) => state.selectedProject)
     const setSelectedProject = useProjectStore((state) => state.setSelectedProject)
 
-    // Función para obtener color según el plan
+    // Función para obtener color según el plan del proyecto
     const getPlanColor = (plan) => {
         const colors = {
-            "big": "#FFC107",      // Gold - Premium
-            "small": "#6C757D",    // Gray - Pequeño
-            "advanced": "#D4854F"  // Orange - Avanzado
+            "big": "#FFC107",      
+            "small": "#6C757D",    
+            "advanced": "#D4854F"  
         }
         return colors[plan] || "#FFC107"
     }
@@ -92,7 +92,7 @@ export default function MapView () {
         return statusMap[status] || status
     }
 
-    // Inicializar el mapa
+    // iniciamos  el mapa
     useEffect(() => {
         if(map.current) return;
 
@@ -108,7 +108,7 @@ export default function MapView () {
     useEffect(() => {
         if(!map.current) return
 
-        // Limpiar marcadores previos
+        
         markersRef.current.forEach(({ marker }) => {
             marker.remove()
         })
@@ -135,7 +135,7 @@ export default function MapView () {
             const popup = createPopup(project)
             marker.setPopup(popup)
 
-            // Event listeners
+            // Eventos de interacción para mostrar popup y seleccionar proyecto
             marker.on("click", () => {
                 setSelectedProject(project)
                 popup.addTo(map.current)
@@ -171,7 +171,7 @@ export default function MapView () {
         const lng = pos.lng ?? pos.longitude
         const lat = pos.lat ?? pos.latitude
 
-        // Fly to selected project
+        // Centrar mapa en el proyecto seleccionado
         map.current.flyTo({
             center: [lng, lat],
             zoom: 10,

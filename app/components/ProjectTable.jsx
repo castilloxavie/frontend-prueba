@@ -8,7 +8,7 @@ const countItemsByType = (incidents, type) => {
     ).length;
 };
 
-// Mapeo de plan a español
+// mapeo en español
 const getPlanLabel = (plan) => {
     const planMap = {
         "big": "Premium",
@@ -29,7 +29,7 @@ const getStatusLabel = (status) => {
     return statusMap[status] || status;
 };
 
-// Componente Badge para Plan
+// componente Badge para Plan
 const PlanBadge = ({ plan }) => {
     const label = getPlanLabel(plan);
     const planClass = {

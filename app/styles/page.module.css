@@ -10,7 +10,7 @@
   padding: 0 24px;
 }
 
-/* ===== VISTA 1: LISTA ===== */
+/* vista de lista*/
 .listView {
   padding: 24px 0;
 }
@@ -117,7 +117,7 @@
   .mapSection {
     width: 100%;
     height: 400px;
-    order: -1; /* Poner el mapa arriba */
+    order: -1; 
   }
 
   .content {

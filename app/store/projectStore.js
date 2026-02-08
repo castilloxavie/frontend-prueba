@@ -1,6 +1,8 @@
 import { create } from "zustand"
 import projectsData from "@/data/mock_data.json"
 
+
+// manejo de los estados del proyecto
 export const useProjectStore = create ((set, get) => ({
     // Datos
     projects: projectsData,

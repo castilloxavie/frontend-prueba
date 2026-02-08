@@ -2,7 +2,7 @@
 import { useProjectStore } from "@/store/projectStore";
 import styles from "@/styles/filter.module.css"
 
-//filtros
+//filtros y ordenamiento de proyectos
 export default function Filter () {
     const statusFilter = useProjectStore((state) => state.statusFilter)
     const setStatusFilter = useProjectStore((state) => state.setStatusFilter)

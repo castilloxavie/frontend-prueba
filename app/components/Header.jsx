@@ -1,6 +1,7 @@
 "use client";
 import styles from "../styles/header.module.css";
 
+// cabezera con logo y perfil de usuario
 export default function Header() {
   return (
     <header className={styles.header}>

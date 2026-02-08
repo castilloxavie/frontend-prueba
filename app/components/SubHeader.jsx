@@ -4,6 +4,7 @@ import { useProjectStore } from "../store/projectStore";
 import styles from "../styles/subheader.module.css";
 import filterStyles from "../styles/filter.module.css";
 
+// subencabesado
 export default function SubHeader() {
   const viewMode = useProjectStore((state) => state.viewMode);
   const setViewMode = useProjectStore((state) => state.setViewMode);
@@ -26,6 +27,7 @@ export default function SubHeader() {
 
   const totalProjects = getFilteredProjects().length;
 
+  // Iconos para los botones de vista y filtro(svg)
   const FilterIcon = () => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -34,6 +36,7 @@ export default function SubHeader() {
     </svg>
   );
 
+  // Iconos para los botones de vista(svg)
   const ListIcon = () => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <circle cx="5" cy="7" r="1.5"></circle>
@@ -45,6 +48,7 @@ export default function SubHeader() {
     </svg>
   );
 
+  // Icuno de maximizar para vista de cuadricula(svg)
   const GridIcon = () => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <rect x="3" y="3" width="7" height="7"></rect>
@@ -54,6 +58,7 @@ export default function SubHeader() {
     </svg>
   );
 
+  // Icono de mapa(svg)
   const MapIcon = () => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>

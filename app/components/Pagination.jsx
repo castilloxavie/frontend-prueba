@@ -2,6 +2,7 @@
 import { useProjectStore } from "@/store/projectStore"
 import styles from "@/styles/pagination.module.css"
 
+//paginación para navegar entre proyectos, se muestra solo si hay más de 1 página de proyectos
 export default function Pagination() {
     const currentPage = useProjectStore((state) => state.currentPage)
     const itemPerPage = useProjectStore((state) => state.itemPerPage)

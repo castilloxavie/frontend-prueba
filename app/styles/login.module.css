@@ -106,7 +106,7 @@
      background: #e6a800;
 }
 
-/* Responsive design */
+/* Responsive */
 @media (max-width: 768px) {
     .loginContent {
         flex-direction: column;
