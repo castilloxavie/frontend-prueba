@@ -29,7 +29,7 @@ const getStatusLabel = (status) => {
     return statusMap[status] || status;
 };
 
-// componente Badge para Plan
+// componente insignia para Plan
 const PlanBadge = ({ plan }) => {
     const label = getPlanLabel(plan);
     const planClass = {
@@ -41,7 +41,7 @@ const PlanBadge = ({ plan }) => {
     return <span className={`${styles.badge} ${planClass}`}>{label}</span>;
 };
 
-// Componente Badge para Status
+// Componente insinia para Status
 const StatusBadge = ({ status }) => {
     const label = getStatusLabel(status);
     const statusClass = {
@@ -65,9 +65,9 @@ const TeamAvatars = ({ users, maxDisplay = 5 }) => {
                 {displayUsers.map((user, idx) => {
                     const initials = `${user.name?.[0] || 'U'}${user.lastName?.[0] || 'U'}`.toUpperCase();
                     return (
-                        <div 
+                        <div
                             key={idx}
-                            className={styles.avatar}
+                            className={`${styles.avatar} ${styles[`avatar${idx + 1}`]}`}
                             title={`${user.name} ${user.lastName}`}
                         >
                             {initials}
@@ -75,7 +75,7 @@ const TeamAvatars = ({ users, maxDisplay = 5 }) => {
                     );
                 })}
                 {extraCount > 0 && (
-                    <div className={styles.avatar} title={`+${extraCount} mas`}>
+                    <div className={styles.teamCount}>
                         +{extraCount}
                     </div>
                 )}
@@ -87,19 +87,18 @@ const TeamAvatars = ({ users, maxDisplay = 5 }) => {
 // Componente para Items por vencer
 const DueItems = ({ incidents, rfi, tasks }) => {
     const items = [
-        { label: "Incidencias", count: incidents, emoji: "X" },
-        { label: "RFI", count: rfi, emoji: "X" },
-        { label: "Tareas", count: tasks, emoji: "X" }
+        { label: "Incidencias", count: incidents },
+        { label: "RFI", count: rfi },
+        { label: "Tareas", count: tasks }
     ];
 
     return (
         <div className={styles.dueItemsContainer}>
             {items.map((item, idx) => (
                 <div key={idx} className={styles.dueItem}>
-                    <div className={styles.dueEmoji}>X</div>
                     <div className={styles.dueContent}>
-                        <div className={styles.dueLabel}>{item.label}</div>
                         <div className={styles.dueCount}>{item.count}</div>
+                        <div className={styles.dueLabel}>{item.label}</div>
                     </div>
                 </div>
             ))}
@@ -117,6 +116,7 @@ export default function ProjectTable(){
     const selectedProject = useProjectStore((state) => state.selectedProject);
     const getFilteredProjects = useProjectStore((state) => state.getFilteredProjects);
     const setViewMode = useProjectStore((state) => state.setViewMode);
+    const viewMode = useProjectStore((state) => state.viewMode);
 
     const projects = getPaginationProject();
     const totalProject = getFilteredProjects().length;
@@ -124,7 +124,7 @@ export default function ProjectTable(){
 
     const handleProjectClick = (project) => {
         setSelectedProject(project);
-        // Cambiar automáticamente a vista mixed para mostrar el mapa
+        // Cambiar automáticamente a vista maximizada  para mostrar el mapa
         setViewMode("mixed");
     };
 
@@ -136,7 +136,7 @@ export default function ProjectTable(){
                     <th>Plan</th>
                     <th>Estado</th>
                     <th>Equipo</th>
-                    <th>Por vencer</th>
+                    <th>Item por vencer</th>
                 </tr>
             </thead>
 
@@ -154,7 +154,23 @@ export default function ProjectTable(){
                             onClick={() => handleProjectClick(project)} 
                             className={`${styles.row} ${isSelected ? styles.selected : ''}`}
                         >
-                            <td className={styles.projectName}>{project.title}</td>
+                            <td>
+                                <div className={styles.projectCell}>
+                                    <div className={styles.projectPlaceholder}></div>
+                                    <div className={styles.projectInfo}>
+                                        <div className={styles.projectTitle}>
+                                            {project.title}
+                                            {project.verified && <span className={styles.verifiedIcon}>✓</span>}
+                                        </div>
+                                        <div className={styles.projectMeta}>
+                                            <span className={styles.metaIcon}>🕒</span>
+                                            {new Date(project.createdAt).toLocaleDateString()}
+                                            <span className={styles.metaIcon}>↗</span>
+                                            Actualizado
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                             <td>
                                 <PlanBadge plan={project.projectPlanData?.plan} />
                             </td>
@@ -162,7 +178,7 @@ export default function ProjectTable(){
                                 <StatusBadge status={project.status} />
                             </td>
                             <td>
-                                <TeamAvatars users={project.users} />
+                                <TeamAvatars users={project.users} maxDisplay={viewMode === "mixed" ? 3 : 5} />
                             </td>
                             <td>
                                 <DueItems incidents={incidents} rfi={rfi} tasks={task} />

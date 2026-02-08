@@ -60,7 +60,7 @@
   background: var(--background-light);
 }
 
-/* menu desplegable */
+/*menu desplegable*/
 .dropdown {
   position: relative;
   display: inline-block;
@@ -148,7 +148,7 @@
 }
 
 .dropdownOption:hover {
-  background: var(--background-light);
+  background: #F5F5F5;
   color: var(--dark-text);
   padding-left: 18px;
 }

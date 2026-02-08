@@ -1,5 +1,5 @@
 .subHeader {
-  background: var(--white);
+  background: var(--background-light);
   border-bottom: 1px solid var(--light-gray);
   padding: 20px 24px;
   position: sticky;
@@ -95,7 +95,7 @@
 
 .searchInput {
   padding: 8px 36px 8px 12px;
-  border: 1px solid var(--light-gray);
+  border: 1px solid var(--primary-color);
   border-radius: 6px;
   font-size: 14px;
   width: 100%;
@@ -126,7 +126,7 @@
 
 .createButton {
   background: var(--primary-color);
-  color: var(--dark-text);
+  color: var(--white);
   border: none;
   padding: 10px 16px;
   border-radius: 6px;
@@ -136,6 +136,9 @@
   transition: all 0.2s ease;
   white-space: nowrap;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .createButton:hover {

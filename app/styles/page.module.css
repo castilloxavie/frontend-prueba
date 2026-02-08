@@ -12,7 +12,7 @@
 
 /* vista de lista*/
 .listView {
-  padding: 24px 0;
+  padding: 0;
 }
 
 .tableWrapper {
@@ -47,6 +47,7 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  order: 1;
 }
 
 .mapSection > div {
@@ -61,6 +62,7 @@
   padding: 24px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
+  max-width: 600px; /* Compress table width for mixed view */
 }
 
 /* ===== VISTA 3: SOLO MAPA ===== */
@@ -81,7 +83,7 @@
   width: 100%;
 }
 
-/* ===== RESPONSIVE ===== */
+/*responsive*/
 @media (max-width: 1200px) {
   .container {
     padding: 0 20px;
@@ -104,34 +106,7 @@
   }
 }
 
-@media (max-width: 992px) {
-  .main {
-    padding-top: 16px;
-  }
 
-  .mixedView .container {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .mapSection {
-    width: 100%;
-    height: 400px;
-    order: -1; 
-  }
-
-  .content {
-    width: 100%;
-  }
-
-  .tableSection {
-    width: 100%;
-  }
-
-  .mapOnlyView .container {
-    height: 600px;
-  }
-}
 
 @media (max-width: 768px) {
   .container {
