@@ -29,27 +29,61 @@ export default function MapView () {
     // Función para crear elemento personalizado del marcador
     const createMarkerElement = (project, isSelected = false) => {
         const el = document.createElement('div')
-        const color = getPlanColor(project.projectPlanData?.plan)
-        
         el.className = styles.marker
-        el.style.backgroundColor = isSelected ? '#FF4444' : color
-        el.style.width = isSelected ? '40px' : '32px'
-        el.style.height = isSelected ? '40px' : '32px'
-        el.style.borderRadius = '50%'
-        el.style.border = isSelected ? '3px solid #FF0000' : `2px solid #FFF`
+
+        // Contenedor principal
+        el.style.position = 'relative'
+        el.style.width = '32px'
+        el.style.height = '40px'
         el.style.cursor = 'pointer'
-        el.style.display = 'flex'
-        el.style.alignItems = 'center'
-        el.style.justifyContent = 'center'
-        el.style.boxShadow = isSelected 
-            ? '0 0 0 3px rgba(255, 0, 0, 0.3)' 
-            : '0 2px 4px rgba(0, 0, 0, 0.2)'
+
+        // Forma de gota oscura
+        const drop = document.createElement('div')
+        drop.style.width = '100%'
+        drop.style.height = '100%'
+        drop.style.backgroundColor = '#333' 
+        drop.style.clipPath = 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)'
+        drop.style.position = 'relative'
+
+        // Punto amarillo central
+        const centerDot = document.createElement('div')
+        centerDot.style.position = 'absolute'
+        centerDot.style.top = '50%'
+        centerDot.style.left = '50%'
+        centerDot.style.transform = 'translate(-50%, -50%)'
+        centerDot.style.width = '6px'
+        centerDot.style.height = '6px'
+        centerDot.style.backgroundColor = '#FFFF00' 
+        centerDot.style.borderRadius = '50%'
+        drop.appendChild(centerDot)
+
+        el.appendChild(drop)
+
+        // Etiqueta negra con texto blanco
+        const label = document.createElement('div')
+        label.style.position = 'absolute'
+        label.style.top = '45px'
+        label.style.left = '50%'
+        label.style.transform = 'translateX(-50%)'
+        label.style.backgroundColor = '#000'
+        label.style.color = '#FFF'
+        label.style.padding = '2px 4px'
+        label.style.borderRadius = '3px'
+        label.style.fontSize = '10px'
+        label.style.whiteSpace = 'nowrap'
+        label.textContent = project.title.length > 10 ? project.title.substring(0, 10) + '...' : project.title
+        el.appendChild(label)
+
+        // Efectos de selección
+        if (isSelected) {
+            drop.style.backgroundColor = '#FF4444'
+            drop.style.boxShadow = '0 0 0 3px rgba(255, 0, 0, 0.3)'
+        } else {
+            drop.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.2)'
+        }
+
         el.style.transition = 'all 0.3s ease'
-        el.style.fontWeight = 'bold'
-        el.style.color = '#FFF'
-        el.style.fontSize = '12px'
-        el.textContent = ''
-        
+
         return el
     }
 
@@ -98,7 +132,7 @@ export default function MapView () {
 
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
-            style: "mapbox://styles/mapbox/streets-v11",
+            style: "mapbox://styles/mapbox/satellite-v9",
             center: [-74.08175, 4.60971],
             zoom: 5,
         })

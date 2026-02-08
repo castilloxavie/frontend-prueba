@@ -13,6 +13,27 @@ import styles from "@/styles/page.module.css";
 
 export default function Home() {
   const viewMode = useProjectStore((state) => state.viewMode);
+  const getFilteredProjects = useProjectStore((state) => state.getFilteredProjects);
+
+  // Calcular totales de items para el sidebar
+  const calculateTotals = () => {
+    const projects = getFilteredProjects();
+    const totals = { incidents: 0, rfi: 0, tasks: 0 };
+
+    projects.forEach(project => {
+      if (project.incidents) {
+        project.incidents.forEach(item => {
+          if (item.item === "incidents") totals.incidents++;
+          else if (item.item === "RFI") totals.rfi++;
+          else if (item.item === "task") totals.tasks++;
+        });
+      }
+    });
+
+    return totals;
+  };
+
+  const totals = calculateTotals();
 
   return (
     <ProtectedRoute>
@@ -25,7 +46,6 @@ export default function Home() {
           {viewMode === "list" && (
             <div className={styles.listView}>
               <div className={styles.container}>
-                <Filter />
                 <div className={styles.tableWrapper}>
                   <ProjectTable />
                   <Pagination />
@@ -43,12 +63,17 @@ export default function Home() {
                     <MapView />
                   </div>
                   <div className={styles.tableSection}>
-                    <Filter />
                     <ProjectTable />
                     <Pagination />
                   </div>
                 </div>
-                <Sidebar />
+                <div className={styles.sidebarSection}>
+                  <Sidebar
+                    totalIncidents={totals.incidents}
+                    totalRFI={totals.rfi}
+                    totalTasks={totals.tasks}
+                  />
+                </div>
               </div>
             </div>
           )}
