@@ -1,12 +1,13 @@
 import { create } from "zustand"
 import projectsData from "@/data/mock_data.json"
+import { Project } from "../types"
 
 
 // manejo de los estados del proyecto
 export const useProjectStore = create ((set, get) => ({
     // Datos
-    projects: projectsData,
-    selectedProject: null,
+    projects: projectsData as Project[],
+    selectedProject: null as Project | null,
 
     // Estado de interfaz de usuario 
     searchTerm: "",

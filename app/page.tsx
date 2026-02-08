@@ -9,6 +9,7 @@ import Filter from "@/components/Filter";
 import Sidebar from "@/components/Sidebar";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useProjectStore } from "@/store/projectStore";
+import { Project } from "./types";
 import styles from "@/styles/page.module.css";
 
 export default function Home() {
@@ -20,7 +21,7 @@ export default function Home() {
     const projects = getFilteredProjects();
     const totals = { incidents: 0, rfi: 0, tasks: 0 };
 
-    projects.forEach(project => {
+    projects.forEach((project: Project) => {
       if (project.incidents) {
         project.incidents.forEach(item => {
           if (item.item === "incidents") totals.incidents++;
